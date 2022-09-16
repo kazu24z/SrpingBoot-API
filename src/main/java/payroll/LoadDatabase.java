@@ -6,11 +6,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+/**
+ * ダミーデータ用クラス
+ */
 @Configuration
 class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
+    /**
+     * データベース初期化
+     * @param repository
+     * @return
+     */
     @Bean
     CommandLineRunner initDatabase(EmployeeRepository repository) {
 

@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * 従業員のドメインクラス
+ */
 @Entity
 @Data
 public class Employee {
@@ -18,12 +21,22 @@ public class Employee {
 
     Employee() {}
 
+    /**
+     * コンストラクタ
+     * @param name
+     * @param role
+     */
     Employee(String name, String role) {
 
         this.name = name;
         this.role = role;
     }
 
+    /**
+     * オブジェクト生成の状態確認
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
 
@@ -36,11 +49,19 @@ public class Employee {
                 && Objects.equals(this.role, employee.role);
     }
 
+    /**
+     * オブジェクトのハッシュ化
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.name, this.role);
     }
 
+    /**
+     * ペイロード生成
+     * @return
+     */
     @Override
     public String toString() {
         return "Employee{" + "id=" + this.id + ", name='" + this.name + '\'' + ", role='" + this.role + '\'' + '}';
