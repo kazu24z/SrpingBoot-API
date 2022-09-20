@@ -22,8 +22,6 @@ class Employee {
     /** lastName **/
     private String lastName;
 
-    /** name **/
-    private String name;
     /** role **/
     private String role;
 
@@ -44,4 +42,23 @@ class Employee {
         this.lastName = lastName;
         this.role = role;
     }
+
+    /**
+     * firstNameとlastNameを統合した旧版のnameを取得
+     * @return String
+     */
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    /**
+     * firstNameとlastNameを統合し、旧版のnameプロパティにも対応
+     * @param name
+     */
+    public void setName(String name) {
+        String[] parts = name.split(" ");
+        this.firstName = parts[0];
+        this.lastName = parts[1];
+    }
+
 }

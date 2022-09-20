@@ -12,18 +12,6 @@
 - リソースにURI（リンクを付与）
 - Spring HATEOASライブラリの利用
 
-## テストデータ（ログ）
-```
-2022-09-20 12:17:33.488  INFO 3384 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=1, name=Bilbo Baggins, role=burglar)
-2022-09-20 12:17:33.489  INFO 3384 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=2, name=Frodo Baggins, role=thief)
-```
-
 # [3章](https://spring.pleiades.io/guides/tutorials/rest/#:~:text=%E3%81%A7%E3%81%AF%E3%81%82%E3%82%8A%E3%81%BE%E3%81%9B%E3%82%93%E3%80%82-,%E9%80%B2%E5%8C%96%E3%81%99%E3%82%8B%20REST%20API,-1%20%E3%81%A4%E3%81%AE)  
 ## 内容
 - APIのバーションアップに伴う、新旧データ混在時の対応
-
-## テストデータ（ログ）
-```
-2022-09-20 16:12:35.704  INFO 8742 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=1, firstName=Bilbo, lastName=Baggins, name=null, role=burglar)
-2022-09-20 16:12:35.706  INFO 8742 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=2, firstName=Frodo, lastName=Baggins, name=null, role=thief)
-```

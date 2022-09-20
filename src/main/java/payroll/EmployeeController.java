@@ -67,8 +67,11 @@ class EmployeeController {
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
 
         return ResponseEntity
-            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
-            .toUri())
+            .created(
+                    entityModel
+                            .getRequiredLink(IanaLinkRelations.SELF)
+                            .toUri()
+            )
             .body(entityModel);
     }
 
