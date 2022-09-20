@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 class LoadDatabase {
-
+    /**
+     * LoadDatabaseクラスのログを格納
+     */
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     /**

@@ -24,14 +24,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 class EmployeeController {
-
+    /** DI:EmployeeRepository **/
     private final EmployeeRepository repository;
-
+    /** DI:EmployeeAssembler **/
     private final EmployeeModelAssembler assembler;
 
     /**
      * コンストラクタ
-     *
      * @param repository
      * @param assembler
      */
@@ -45,11 +44,8 @@ class EmployeeController {
 
     /**
      * 従業員一覧取得
-     *
      * @return CollectionModel
      */
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/employees")
     CollectionModel<EntityModel<Employee>> all() {
 
@@ -59,31 +55,27 @@ class EmployeeController {
 
         return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
     }
-    // end::get-aggregate-root[]
 
     /**
      * 従業員登録
-     *
      * @param newEmployee
-     * @return entityModel
+     * @return 従業員エンティティ
      */
     @PostMapping("/employees")
     ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
 
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
 
-        return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+        return ResponseEntity
+            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
+            .toUri())
+            .body(entityModel);
     }
-
-    // Single item
 
     /**
      * 従業員詳細取得
-     *
      * @param id
-     * @return
+     * @return 従業員モデル
      */
     @GetMapping("/employees/{id}")
     EntityModel<Employee> one(@PathVariable Long id) {
@@ -96,10 +88,9 @@ class EmployeeController {
 
     /**
      * 従業員更新
-     *
      * @param newEmployee
      * @param id
-     * @return
+     * @return 従業員エンティティ
      */
     @PutMapping("/employees/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
@@ -109,7 +100,7 @@ class EmployeeController {
                     employee.setName(newEmployee.getName());
                     employee.setRole(newEmployee.getRole());
                     return repository.save(employee);
-                }) //
+                })
                 .orElseGet(() -> {
                     newEmployee.setId(id);
                     return repository.save(newEmployee);
@@ -117,15 +108,15 @@ class EmployeeController {
 
         EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
 
-        return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+        return ResponseEntity
+            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+            .body(entityModel);
     }
 
     /**
      * 従業員削除
-     *
      * @param id
+     * @return 従業員エンティティ
      */
     @DeleteMapping("/employees/{id}")
     ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
