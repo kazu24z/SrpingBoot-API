@@ -22,9 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 class EmployeeController {
-
+    /** DI:EmployeeRepository **/
     private final EmployeeRepository repository;
-
+    /** DI:EmployeeAssembler **/
     private final EmployeeModelAssembler assembler;
 
     /**
@@ -44,8 +44,6 @@ class EmployeeController {
      * 従業員一覧取得
      * @return CollectionModel
      */
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/employees")
     CollectionModel<EntityModel<Employee>> all() {
 
@@ -55,7 +53,6 @@ class EmployeeController {
 
         return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
     }
-    // end::get-aggregate-root[]
 
     /**
      * 従業員登録
@@ -66,8 +63,6 @@ class EmployeeController {
     Employee newEmployee(@RequestBody Employee newEmployee) {
         return repository.save(newEmployee);
     }
-
-    // Single item
 
     /**
      * 従業員詳細取得

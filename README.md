@@ -11,3 +11,9 @@
 - HATEOASの概念
 - リソースにURI（リンクを付与）
 - Spring HATEOASライブラリの利用
+
+## テストデータ（ログ）
+```
+2022-09-20 12:17:33.488  INFO 3384 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=1, name=Bilbo Baggins, role=burglar)
+2022-09-20 12:17:33.489  INFO 3384 --- [           main] payroll.LoadDatabase                     : Preloading Employee(id=2, name=Frodo Baggins, role=thief)
+```
