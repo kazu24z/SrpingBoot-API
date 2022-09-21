@@ -9,16 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * 従業員のドメインクラス
+ * 従業員エンティティ
  */
 @Entity
 @Data
-public class Employee {
+class Employee {
 
     /** ID **/
     private @Id @GeneratedValue Long id;
-    /** name **/
-    private String name;
+    /** firstName **/
+    private String firstName;
+    /** lastName **/
+    private String lastName;
+
     /** role **/
     private String role;
 
@@ -29,12 +32,33 @@ public class Employee {
 
     /**
      * コンストラクタ
-     * @param name
+     * @param firstName
+     * @param lastName
      * @param role
      */
-    Employee(String name, String role) {
+    Employee(String firstName, String lastName, String role) {
 
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
     }
+
+    /**
+     * firstNameとlastNameを統合した旧版のnameを取得
+     * @return String
+     */
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    /**
+     * firstNameとlastNameを統合し、旧版のnameプロパティにも対応
+     * @param name
+     */
+    public void setName(String name) {
+        String[] parts = name.split(" ");
+        this.firstName = parts[0];
+        this.lastName = parts[1];
+    }
+
 }

@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,17 +59,26 @@ class EmployeeController {
     /**
      * 従業員登録
      * @param newEmployee
-     * @return
+     * @return 従業員エンティティ
      */
     @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
+    ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
+
+        EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
+
+        return ResponseEntity
+            .created(
+                entityModel
+                    .getRequiredLink(IanaLinkRelations.SELF)
+                    .toUri()
+            )
+            .body(entityModel);
     }
 
     /**
      * 従業員詳細取得
      * @param id
-     * @return
+     * @return 従業員モデル
      */
     @GetMapping("/employees/{id}")
     EntityModel<Employee> one(@PathVariable Long id) {
@@ -82,12 +93,12 @@ class EmployeeController {
      * 従業員更新
      * @param newEmployee
      * @param id
-     * @return
+     * @return 従業員エンティティ
      */
     @PutMapping("/employees/{id}")
-    Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 
-        return repository.findById(id)
+        Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
                     employee.setRole(newEmployee.getRole());
@@ -97,14 +108,24 @@ class EmployeeController {
                     newEmployee.setId(id);
                     return repository.save(newEmployee);
                 });
+
+        EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
+
+        return ResponseEntity
+            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+            .body(entityModel);
     }
 
     /**
      * 従業員削除
      * @param id
+     * @return 従業員エンティティ
      */
     @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+
         repository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
