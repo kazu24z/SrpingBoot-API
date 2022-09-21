@@ -20,8 +20,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 class OrderController {
-
+    /** DI:orderRepository */
     private final OrderRepository orderRepository;
+    /** DI:assembler */
     private final OrderModelAssembler assembler;
 
     /**
@@ -42,12 +43,17 @@ class OrderController {
     @GetMapping("/orders")
     CollectionModel<EntityModel<Order>> all() {
 
-        List<EntityModel<Order>> orders = orderRepository.findAll().stream() //
-                .map(assembler::toModel) //
-                .collect(Collectors.toList());
+        List<EntityModel<Order>> orders = orderRepository.findAll().stream()
+            .map(assembler::toModel)
+            .collect(Collectors.toList());
 
-        return CollectionModel.of(orders, //
-                linkTo(methodOn(OrderController.class).all()).withSelfRel());
+        return CollectionModel.of(
+            orders,
+            linkTo(
+                methodOn(OrderController.class).all()
+            )
+                .withSelfRel()
+        );
     }
 
     /**
@@ -75,9 +81,12 @@ class OrderController {
         order.setStatus(Status.IN_PROGRESS);
         Order newOrder = orderRepository.save(order);
 
-        return ResponseEntity //
-                .created(linkTo(methodOn(OrderController.class).one(newOrder.getId())).toUri()) //
-                .body(assembler.toModel(newOrder));
+        return ResponseEntity
+            .created(linkTo(methodOn(OrderController.class).one(newOrder.getId())
+                )
+                .toUri()
+            )
+            .body(assembler.toModel(newOrder));
     }
 
     /**
@@ -88,7 +97,7 @@ class OrderController {
     @DeleteMapping("/orders/{id}/cancel")
     ResponseEntity<?> cancel(@PathVariable Long id) {
 
-        Order order = orderRepository.findById(id) //
+        Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
         if (order.getStatus() == Status.IN_PROGRESS) {
@@ -96,12 +105,12 @@ class OrderController {
             return ResponseEntity.ok(assembler.toModel(orderRepository.save(order)));
         }
 
-        return ResponseEntity //
-                .status(HttpStatus.METHOD_NOT_ALLOWED) //
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
-                .body(Problem.create() //
-                        .withTitle("Method not allowed") //
-                        .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
+                .body(Problem.create()
+                    .withTitle("Method not allowed")
+                    .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
     }
 
     /**
@@ -112,19 +121,19 @@ class OrderController {
     @PutMapping("/orders/{id}/complete")
     ResponseEntity<?> complete(@PathVariable Long id) {
 
-        Order order = orderRepository.findById(id) //
-                .orElseThrow(() -> new OrderNotFoundException(id));
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new OrderNotFoundException(id));
 
         if (order.getStatus() == Status.IN_PROGRESS) {
             order.setStatus(Status.COMPLETED);
             return ResponseEntity.ok(assembler.toModel(orderRepository.save(order)));
         }
 
-        return ResponseEntity //
-                .status(HttpStatus.METHOD_NOT_ALLOWED) //
-                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
-                .body(Problem.create() //
-                        .withTitle("Method not allowed") //
-                        .withDetail("You can't complete an order that is in the " + order.getStatus() + " status"));
+        return ResponseEntity
+            .status(HttpStatus.METHOD_NOT_ALLOWED)
+            .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+            .body(Problem.create()
+                .withTitle("Method not allowed")
+                .withDetail("You can't complete an order that is in the " + order.getStatus() + " status"));
     }
 }
