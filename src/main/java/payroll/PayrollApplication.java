@@ -8,7 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class PayrollApplication {
-
+	/**
+	 * プログラム実行の起点となるメソッド
+	 * @param args
+	 */
 	public static void main(String... args) {
 		SpringApplication.run(PayrollApplication.class, args);
 	}
