@@ -68,9 +68,9 @@ class EmployeeController {
 
         return ResponseEntity
             .created(
-                    entityModel
-                            .getRequiredLink(IanaLinkRelations.SELF)
-                            .toUri()
+                entityModel
+                    .getRequiredLink(IanaLinkRelations.SELF)
+                    .toUri()
             )
             .body(entityModel);
     }
@@ -98,7 +98,7 @@ class EmployeeController {
     @PutMapping("/employees/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 
-        Employee updatedEmployee = repository.findById(id) //
+        Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
                     employee.setRole(newEmployee.getRole());
