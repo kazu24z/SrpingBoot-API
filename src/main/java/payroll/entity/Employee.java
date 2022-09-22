@@ -1,4 +1,4 @@
-package payroll;
+package payroll.entity;
 
 import lombok.Data;
 
@@ -13,6 +13,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
+public
 class Employee {
 
     /** ID **/
@@ -36,7 +37,7 @@ class Employee {
      * @param lastName
      * @param role
      */
-    Employee(String firstName, String lastName, String role) {
+    public Employee(String firstName, String lastName, String role) {
 
         this.firstName = firstName;
         this.lastName = lastName;

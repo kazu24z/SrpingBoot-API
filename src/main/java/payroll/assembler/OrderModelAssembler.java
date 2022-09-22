@@ -1,15 +1,19 @@
-package payroll;
+package payroll.assembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+import payroll.controller.OrderController;
+import payroll.entity.Order;
+import payroll.enums.Status;
 
 /**
  * 注文エンティティを注文モデルに変換するクラス
  */
 @Component
+public
 class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
 
     /**

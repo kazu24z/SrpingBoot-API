@@ -1,4 +1,4 @@
-package payroll;
+package payroll.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -9,6 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import payroll.assembler.OrderModelAssembler;
+import payroll.entity.Order;
+import payroll.enums.Status;
+import payroll.exception.OrderNotFoundException;
+import payroll.repository.OrderRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +25,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * 注文用コントローラ
  */
 @RestController
+public
 class OrderController {
-    /**
-     * DI:orderRepository
-     */
+    /** DI:orderRepository */
     private final OrderRepository orderRepository;
-    /**
-     * DI:assembler
-     */
+    /** DI:assembler */
     private final OrderModelAssembler assembler;
 
     /**
@@ -47,7 +49,7 @@ class OrderController {
      * @return 注文モデルのリスト
      */
     @GetMapping("/orders")
-    CollectionModel<EntityModel<Order>> all() {
+    public CollectionModel<EntityModel<Order>> all() {
 
         List<EntityModel<Order>> orders = orderRepository.findAll().stream()
             .map(assembler::toModel)
@@ -69,7 +71,7 @@ class OrderController {
      * @return 注文モデル
      */
     @GetMapping("/orders/{id}")
-    EntityModel<Order> one(@PathVariable Long id) {
+    public EntityModel<Order> one(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new OrderNotFoundException(id));
@@ -105,7 +107,7 @@ class OrderController {
      * @return 注文エンティティ
      */
     @DeleteMapping("/orders/{id}/cancel")
-    ResponseEntity<?> cancel(@PathVariable Long id) {
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new OrderNotFoundException(id));
@@ -129,7 +131,7 @@ class OrderController {
      * @return 注文エンティティ
      */
     @PutMapping("/orders/{id}/complete")
-    ResponseEntity<?> complete(@PathVariable Long id) {
+    public ResponseEntity<?> complete(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new OrderNotFoundException(id));

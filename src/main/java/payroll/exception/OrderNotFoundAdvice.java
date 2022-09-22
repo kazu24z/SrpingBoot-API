@@ -1,25 +1,26 @@
-package payroll;
+package payroll.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import payroll.exception.OrderNotFoundException;
 
 /**
- * 従業員検索エラー時の処理用クラス
+ * 注文検索例外発生時の処理用クラス
  */
 @ControllerAdvice
-public class EmployeeNotFoundAdvice {
+public class OrderNotFoundAdvice {
     /**
-     * エラーメッセージの取得
+     * 例外メッセージ返却
      * @param ex
-     * @return
+     * @return エラーメッセージ
      */
     @ResponseBody
-    @ExceptionHandler(EmployeeNotFoundException.class)
+    @ExceptionHandler(OrderNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+    String employeeNotFoundHandler(OrderNotFoundException ex) {
         return ex.getMessage();
     }
 }

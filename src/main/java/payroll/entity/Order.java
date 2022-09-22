@@ -1,6 +1,7 @@
-package payroll;
+package payroll.entity;
 
 import lombok.Data;
+import payroll.enums.Status;
 
 import java.util.Objects;
 
@@ -33,7 +34,7 @@ public class Order {
      * @param description
      * @param status
      */
-    Order(String description, Status status) {
+    public Order(String description, Status status) {
 
         this.description = description;
         this.status = status;

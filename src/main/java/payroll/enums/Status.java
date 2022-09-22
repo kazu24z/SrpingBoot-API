@@ -1,9 +1,9 @@
-package payroll;
+package payroll.enums;
 
 /**
  * 注文ステータスEnum
  */
-enum Status {
+public enum Status {
     IN_PROGRESS,
     COMPLETED,
     CANCELLED
