@@ -16,6 +16,12 @@ class LoadDatabase {
      */
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
+    /**
+     * データベース初期化
+     * @param employeeRepository
+     * @param orderRepository
+     * @return
+     */
     @Bean
     CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
 

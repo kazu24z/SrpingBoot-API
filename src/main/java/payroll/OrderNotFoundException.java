@@ -1,11 +1,11 @@
 package payroll;
 
 /**
- * 注文が見つからない時の例外メッセージ
+ * 注文未存在例外クラス
  */
 public class OrderNotFoundException extends RuntimeException {
     /**
-     * エラーメッセージ表示
+     * コンストラクタ
      * @param id
      */
     OrderNotFoundException(Long id) {

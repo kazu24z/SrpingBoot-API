@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * 注文検索エラー時の処理用クラス
+ * 注文検索例外発生時の処理用クラス
  */
 @ControllerAdvice
 public class OrderNotFoundAdvice {
     /**
-     * エラーメッセージの取得
+     * 例外メッセージ返却
      * @param ex
      * @return エラーメッセージ
      */

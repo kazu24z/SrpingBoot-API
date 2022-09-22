@@ -1,5 +1,6 @@
 package payroll;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
@@ -20,9 +21,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 class OrderController {
-    /** DI:orderRepository */
+    /**
+     * DI:orderRepository
+     */
     private final OrderRepository orderRepository;
-    /** DI:assembler */
+    /**
+     * DI:assembler
+     */
     private final OrderModelAssembler assembler;
 
     /**
@@ -30,6 +35,7 @@ class OrderController {
      * @param orderRepository
      * @param assembler
      */
+    @Autowired
     OrderController(OrderRepository orderRepository, OrderModelAssembler assembler) {
 
         this.orderRepository = orderRepository;
@@ -58,14 +64,15 @@ class OrderController {
 
     /**
      * 注文1件取得
+     *
      * @param id
      * @return 注文モデル
      */
     @GetMapping("/orders/{id}")
     EntityModel<Order> one(@PathVariable Long id) {
 
-        Order order = orderRepository.findById(id) //
-                .orElseThrow(() -> new OrderNotFoundException(id));
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new OrderNotFoundException(id));
 
         return assembler.toModel(order);
     }
@@ -82,7 +89,10 @@ class OrderController {
         Order newOrder = orderRepository.save(order);
 
         return ResponseEntity
-            .created(linkTo(methodOn(OrderController.class).one(newOrder.getId())
+            .created(
+                linkTo(
+                    methodOn(OrderController.class)
+                        .one(newOrder.getId())
                 )
                 .toUri()
             )
@@ -98,19 +108,19 @@ class OrderController {
     ResponseEntity<?> cancel(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
+            .orElseThrow(() -> new OrderNotFoundException(id));
 
-        if (order.getStatus() == Status.IN_PROGRESS) {
+        if (Status.IN_PROGRESS.equals(order.getStatus())) {
             order.setStatus(Status.CANCELLED);
             return ResponseEntity.ok(assembler.toModel(orderRepository.save(order)));
         }
 
         return ResponseEntity
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
-                .body(Problem.create()
-                    .withTitle("Method not allowed")
-                    .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
+            .status(HttpStatus.METHOD_NOT_ALLOWED)
+            .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+            .body(Problem.create()
+                .withTitle("Method not allowed")
+                .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
     }
 
     /**
