@@ -15,7 +15,7 @@ import payroll.repository.OrderRepository;
  * テストデータ用クラス
  */
 @Configuration
-class LoadDatabase {
+public class LoadDatabase {
     /**
      * LoadDatabaseクラスのログを格納
      */
@@ -28,7 +28,7 @@ class LoadDatabase {
      * @return
      */
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
+    public CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
 
         return args -> {
             employeeRepository.save(new Employee("Bilbo", "Baggins", "burglar"));

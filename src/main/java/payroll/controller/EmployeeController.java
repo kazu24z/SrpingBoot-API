@@ -100,7 +100,7 @@ public class EmployeeController {
      * @return 従業員エンティティ
      */
     @PutMapping("/employees/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    public ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 
         Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
@@ -126,7 +126,7 @@ public class EmployeeController {
      * @return 従業員エンティティ
      */
     @DeleteMapping("/employees/{id}")
-    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         repository.deleteById(id);
 

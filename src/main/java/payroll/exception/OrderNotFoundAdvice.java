@@ -20,7 +20,7 @@ public class OrderNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(OrderNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(OrderNotFoundException ex) {
+    public String employeeNotFoundHandler(OrderNotFoundException ex) {
         return ex.getMessage();
     }
 }

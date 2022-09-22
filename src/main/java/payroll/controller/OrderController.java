@@ -84,7 +84,7 @@ public class OrderController {
      * @return 注文エンティティ
      */
     @PostMapping("/orders")
-    ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
+    public ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
 
         order.setStatus(Status.IN_PROGRESS);
         Order newOrder = orderRepository.save(order);
