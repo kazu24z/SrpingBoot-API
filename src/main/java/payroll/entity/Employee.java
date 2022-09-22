@@ -13,8 +13,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public
-class Employee {
+public class Employee {
 
     /** ID **/
     private @Id @GeneratedValue Long id;

@@ -27,8 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * 従業員モデル用コントローラ
  */
 @RestController
-public
-class EmployeeController {
+public class EmployeeController {
     /** DI:EmployeeRepository **/
     private final EmployeeRepository repository;
     /** DI:EmployeeAssembler **/

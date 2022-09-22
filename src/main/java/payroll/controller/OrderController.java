@@ -25,8 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * 注文用コントローラ
  */
 @RestController
-public
-class OrderController {
+public class OrderController {
     /** DI:orderRepository */
     private final OrderRepository orderRepository;
     /** DI:assembler */

@@ -12,8 +12,7 @@ import payroll.entity.Employee;
  * EmployeeエンティティをEmployeeエンティティモデルに変換するクラス
  */
 @Component
-public
-class EmployeeModelAssembler implements RepresentationModelAssembler<Employee, EntityModel<Employee>> {
+public class EmployeeModelAssembler implements RepresentationModelAssembler<Employee, EntityModel<Employee>> {
     /**
      * Employeeエンティティをモデルに変換するメソッド
      * @param employee

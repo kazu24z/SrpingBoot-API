@@ -13,8 +13,7 @@ import payroll.enums.Status;
  * 注文エンティティを注文モデルに変換するクラス
  */
 @Component
-public
-class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
+public class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
 
     /**
      * エンティティをモデルに変換するメソッド
