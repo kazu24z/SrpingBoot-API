@@ -37,7 +37,7 @@ public class OrderController {
      * @param assembler
      */
     @Autowired
-    OrderController(OrderRepository orderRepository, OrderModelAssembler assembler) {
+    public OrderController(OrderRepository orderRepository, OrderModelAssembler assembler) {
 
         this.orderRepository = orderRepository;
         this.assembler = assembler;

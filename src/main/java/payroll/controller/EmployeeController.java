@@ -39,7 +39,7 @@ public class EmployeeController {
      * @param assembler
      */
     @Autowired
-    EmployeeController(EmployeeRepository repository, EmployeeModelAssembler assembler) {
+    public EmployeeController(EmployeeRepository repository, EmployeeModelAssembler assembler) {
 
         this.repository = repository;
         this.assembler = assembler;
@@ -66,7 +66,7 @@ public class EmployeeController {
      * @return 従業員エンティティ
      */
     @PostMapping("/employees")
-    ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
 
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
 
