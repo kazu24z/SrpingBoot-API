@@ -81,7 +81,7 @@ public class EmployeeController {
      * @param id
      * @return 従業員モデル
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public EntityModel<Employee> one(@PathVariable Long id) {
 
         Employee employee = repository.findById(id)
