@@ -1,16 +1,21 @@
-package payroll;
+package payroll.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import payroll.entity.Employee;
+import payroll.entity.Order;
+import payroll.enums.Status;
+import payroll.repository.EmployeeRepository;
+import payroll.repository.OrderRepository;
 
 /**
  * テストデータ用クラス
  */
 @Configuration
-class LoadDatabase {
+public class LoadDatabase {
     /**
      * LoadDatabaseクラスのログを格納
      */
@@ -23,7 +28,7 @@ class LoadDatabase {
      * @return
      */
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
+    public CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
 
         return args -> {
             employeeRepository.save(new Employee("Bilbo", "Baggins", "burglar"));

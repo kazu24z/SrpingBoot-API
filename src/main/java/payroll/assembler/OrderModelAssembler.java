@@ -1,16 +1,19 @@
-package payroll;
+package payroll.assembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+import payroll.controller.OrderController;
+import payroll.entity.Order;
+import payroll.enums.Status;
 
 /**
  * 注文エンティティを注文モデルに変換するクラス
  */
 @Component
-class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
+public class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
 
     /**
      * エンティティをモデルに変換するメソッド
@@ -24,7 +27,7 @@ class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityM
                 linkTo(methodOn(OrderController.class).one(order.getId())).withSelfRel(),
                 linkTo(methodOn(OrderController.class).all()).withRel("orders"));
 
-        if (order.getStatus() == Status.IN_PROGRESS) {
+        if (Status.IN_PROGRESS.equals(order.getStatus())) {
             orderModel.add(linkTo(methodOn(OrderController.class).cancel(order.getId())).withRel("cancel"));
             orderModel.add(linkTo(methodOn(OrderController.class).complete(order.getId())).withRel("complete"));
         }
