@@ -3,6 +3,7 @@ package payroll.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -23,7 +24,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 @RestController
 @RequestMapping("/employees")
-@Validated
 public class EmployeeController {
     /** DI:EmployeeRepository **/
     private final EmployeeRepository repository;
@@ -47,7 +47,7 @@ public class EmployeeController {
      * 従業員一覧取得
      * @return CollectionModel
      */
-    @GetMapping("/")
+    @GetMapping()
     public CollectionModel<EntityModel<Employee>> all() {
 
         List<EntityModel<Employee>> employees = repository.findAll().stream()
@@ -62,7 +62,7 @@ public class EmployeeController {
      * @param newEmployee
      * @return 従業員エンティティ
      */
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
 
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
