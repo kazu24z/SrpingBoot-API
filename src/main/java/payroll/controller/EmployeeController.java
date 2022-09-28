@@ -1,12 +1,10 @@
 package payroll.controller;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import payroll.assembler.EmployeeModelAssembler;
 import payroll.entity.Employee;
@@ -23,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * 従業員モデル用コントローラ
  */
 @RestController
-//@RequestMapping("/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
     /** DI:EmployeeRepository **/
     private final EmployeeRepository repository;
@@ -47,7 +45,7 @@ public class EmployeeController {
      * 従業員一覧取得
      * @return CollectionModel
      */
-    @GetMapping("/employees")
+    @GetMapping
     public CollectionModel<EntityModel<Employee>> all() {
 
         List<EntityModel<Employee>> employees = repository.findAll().stream()
@@ -62,7 +60,7 @@ public class EmployeeController {
      * @param id
      * @return 従業員モデル
      */
-    @GetMapping("/employees/{id:\\d+}")
+    @GetMapping("/{id:\\d+}")
     public EntityModel<Employee> one(@PathVariable Long id) {
 
         Employee employee = repository.findById(id)
@@ -76,7 +74,7 @@ public class EmployeeController {
      * @param newEmployee
      * @return 従業員エンティティ
      */
-    @PostMapping("/employees")
+    @PostMapping
     public ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
 
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
@@ -96,7 +94,7 @@ public class EmployeeController {
      * @param id
      * @return 従業員エンティティ
      */
-    @PutMapping("/employees/{id:\\d+}")
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 
         Employee updatedEmployee = repository.findById(id)
@@ -122,7 +120,7 @@ public class EmployeeController {
      * @param id
      * @return 従業員エンティティ
      */
-    @DeleteMapping("/employees/{id:\\d+}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         repository.deleteById(id);
