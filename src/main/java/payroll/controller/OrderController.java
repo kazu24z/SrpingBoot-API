@@ -80,34 +80,6 @@ public class OrderController {
         return assembler.toModel(order);
     }
 
-    /* TODO: マージ前に削除すること */
-    /**
-     * 動作確認用PUTメソッド
-     * @param newOrder
-     * @param id
-     * @return ResponseEntity
-     */
-    @PutMapping("/orders/{id}")
-    public ResponseEntity<?> testPut(@RequestBody Order newOrder, @PathVariable Long id) {
-
-        Order updatedOrder = orderRepository.findById(id)
-            .map(order -> {
-                order.setDescription(newOrder.getDescription());
-                order.setStatus(newOrder.getStatus());
-                return orderRepository.save(order);
-            })
-            .orElseGet(() -> {
-                newOrder.setId(id);
-                return orderRepository.save(newOrder);
-                });
-
-            EntityModel<Order> entityModel = assembler.toModel(updatedOrder);
-
-        return ResponseEntity
-            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-            .body(entityModel);
-    }
-
     /**
      * 注文登録
      * @param order
@@ -135,7 +107,7 @@ public class OrderController {
      * @param id
      * @return 注文エンティティ
      */
-    @DeleteMapping("/orders/{id}/cancel")
+    @DeleteMapping("/orders/{id:\\d+}/cancel")
     public ResponseEntity<?> cancel(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
@@ -159,7 +131,7 @@ public class OrderController {
      * @param id
      * @return 注文エンティティ
      */
-    @PutMapping("/orders/{id}/complete")
+    @PutMapping("/orders/{id:\\d+}/complete")
     public ResponseEntity<?> complete(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
