@@ -3,7 +3,6 @@ package payroll.form;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -11,7 +10,6 @@ import javax.validation.constraints.Size;
  * 従業員のフォーム条件クラス
  */
 @Data
-@Entity
 public class EmployeeForm {
     /** firstName */
     @NotBlank
