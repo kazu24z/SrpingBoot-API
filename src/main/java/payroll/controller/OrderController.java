@@ -3,11 +3,13 @@ package payroll.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import payroll.assembler.OrderModelAssembler;
 import payroll.entity.Order;
@@ -69,13 +71,41 @@ public class OrderController {
      * @param id
      * @return 注文モデル
      */
-    @GetMapping("/orders/{id}")
+    @GetMapping("/orders/{id:\\d+}")
     public EntityModel<Order> one(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new OrderNotFoundException(id));
 
         return assembler.toModel(order);
+    }
+
+    /* TODO: マージ前に削除すること */
+    /**
+     * 動作確認用PUTメソッド
+     * @param newOrder
+     * @param id
+     * @return ResponseEntity
+     */
+    @PutMapping("/orders/{id}")
+    public ResponseEntity<?> testPut(@RequestBody Order newOrder, @PathVariable Long id) {
+
+        Order updatedOrder = orderRepository.findById(id)
+            .map(order -> {
+                order.setDescription(newOrder.getDescription());
+                order.setStatus(newOrder.getStatus());
+                return orderRepository.save(order);
+            })
+            .orElseGet(() -> {
+                newOrder.setId(id);
+                return orderRepository.save(newOrder);
+                });
+
+            EntityModel<Order> entityModel = assembler.toModel(updatedOrder);
+
+        return ResponseEntity
+            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+            .body(entityModel);
     }
 
     /**
