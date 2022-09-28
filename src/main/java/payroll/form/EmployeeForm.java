@@ -5,7 +5,6 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -15,12 +14,12 @@ import javax.validation.constraints.Size;
 @Entity
 public class EmployeeForm {
     /** firstName */
-    @NotNull
+    @NotBlank
     @Size(max=6)
     private  String firstName;
 
     /** lastName */
-    @NotNull
+    @NotBlank
     @Size(max=6)
     private String lastName;
 
