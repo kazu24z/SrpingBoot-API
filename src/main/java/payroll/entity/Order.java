@@ -3,8 +3,6 @@ package payroll.entity;
 import lombok.Data;
 import payroll.enums.Status;
 
-import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

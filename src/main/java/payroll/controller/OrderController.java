@@ -25,6 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * 注文用コントローラ
  */
 @RestController
+@RequestMapping("/orders")
 public class OrderController {
     /** DI:orderRepository */
     private final OrderRepository orderRepository;
@@ -47,7 +48,7 @@ public class OrderController {
      * 一覧取得
      * @return 注文モデルのリスト
      */
-    @GetMapping("/orders")
+    @GetMapping
     public CollectionModel<EntityModel<Order>> all() {
 
         List<EntityModel<Order>> orders = orderRepository.findAll().stream()
@@ -69,7 +70,7 @@ public class OrderController {
      * @param id
      * @return 注文モデル
      */
-    @GetMapping("/orders/{id}")
+    @GetMapping("/{id:\\d+}")
     public EntityModel<Order> one(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
@@ -83,7 +84,7 @@ public class OrderController {
      * @param order
      * @return 注文エンティティ
      */
-    @PostMapping("/orders")
+    @PostMapping
     public ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
 
         order.setStatus(Status.IN_PROGRESS);
@@ -105,7 +106,7 @@ public class OrderController {
      * @param id
      * @return 注文エンティティ
      */
-    @DeleteMapping("/orders/{id}/cancel")
+    @DeleteMapping("/{id:\\d+}/cancel")
     public ResponseEntity<?> cancel(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
@@ -129,7 +130,7 @@ public class OrderController {
      * @param id
      * @return 注文エンティティ
      */
-    @PutMapping("/orders/{id}/complete")
+    @PutMapping("/{id:\\d+}/complete")
     public ResponseEntity<?> complete(@PathVariable Long id) {
 
         Order order = orderRepository.findById(id)
