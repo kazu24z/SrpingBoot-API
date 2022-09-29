@@ -89,13 +89,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<EntityModel<Order>> newOrder(@Validated @RequestBody OrderForm orderForm) {
 
-        Order order = new Order(
+        Order newOrder = orderRepository.save(
+            new Order(
             orderForm.getDescription(),
-            orderForm.getStatus()
+            Status.IN_PROGRESS
+            )
         );
-
-        order.setStatus(Status.IN_PROGRESS);
-        Order newOrder = orderRepository.save(order);
 
         return ResponseEntity
             .created(

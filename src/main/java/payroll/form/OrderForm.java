@@ -13,10 +13,7 @@ import javax.validation.constraints.Size;
 public class OrderForm {
     /** description */
     @NotBlank
-    @Size(min=10,max=50)
+    @Size(min=10, max=50)
     public String description;
-
-    /** status */
-    public Status status;
 
 }
