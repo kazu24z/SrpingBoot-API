@@ -1,7 +1,6 @@
 package payroll.form;
 
 import lombok.Data;
-import payroll.enums.Status;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
