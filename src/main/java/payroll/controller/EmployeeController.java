@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import payroll.assembler.EmployeeModelAssembler;
 import payroll.entity.Employee;
@@ -75,19 +73,18 @@ public class EmployeeController {
 
     /**
      * 従業員登録
-     *
      * @param employeeForm
      * @return 従業員エンティティ
      */
     @PostMapping
-    public ResponseEntity<?> newEmployee(@Valid EmployeeForm employeeForm, BindingResult bindingResult, @RequestBody Employee newEmployee) {
+    public ResponseEntity<?> newEmployee(@Valid @RequestBody EmployeeForm employeeForm) {
 
-        // TODO: 現状、employeeForm内の各プロパティが空（＝POSTされた内容がFormに入ってない）
-        if(bindingResult.hasErrors()) {
-            return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(),HttpStatus.NOT_FOUND);
-        }
+        Employee newEmployee = new Employee(
+            employeeForm.getFirstName(),
+            employeeForm.getLastName(),
+            employeeForm.getRole()
+        );
 
-        // Entityを受け取って保存する
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
 
         return ResponseEntity
