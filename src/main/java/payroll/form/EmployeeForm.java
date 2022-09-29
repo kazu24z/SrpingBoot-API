@@ -13,17 +13,17 @@ import javax.validation.constraints.Size;
 public class EmployeeForm {
     /** firstName */
     @NotBlank
-    @Size(max=6)
+    @Size(max=5)
     private  String firstName;
 
     /** lastName */
     @NotBlank
-    @Size(max=6)
+    @Size(max=5)
     private String lastName;
 
     /** role */
     @Nullable
-    @Size(max=20)
+    @Size(max=19)
     private String role;
 
 

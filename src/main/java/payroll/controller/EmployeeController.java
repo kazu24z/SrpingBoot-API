@@ -5,6 +5,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import payroll.assembler.EmployeeModelAssembler;
 import payroll.entity.Employee;
@@ -77,7 +78,7 @@ public class EmployeeController {
      * @return 従業員エンティティ
      */
     @PostMapping
-    public ResponseEntity<?> newEmployee(@Valid @RequestBody EmployeeForm employeeForm) {
+    public ResponseEntity<?> newEmployee(@Validated @RequestBody EmployeeForm employeeForm) {
 
         Employee newEmployee = new Employee(
             employeeForm.getFirstName(),
