@@ -99,22 +99,28 @@ public class EmployeeController {
 
     /**
      * 従業員更新
-     * @param newEmployee
+     * @param employeeForm
      * @param id
      * @return 従業員エンティティ
      */
     @PutMapping("/{id:\\d+}")
-    public ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    public ResponseEntity<?> replaceEmployee(@Validated @RequestBody  EmployeeForm employeeForm, @PathVariable Long id) {
+
+        Employee testEmployee = new Employee(
+            employeeForm.getFirstName(),
+            employeeForm.getLastName(),
+            employeeForm.getRole()
+        );
 
         Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
-                    employee.setName(newEmployee.getName());
-                    employee.setRole(newEmployee.getRole());
+                    employee.setName(testEmployee.getName());
+                    employee.setRole(testEmployee.getRole());
                     return repository.save(employee);
                 })
                 .orElseGet(() -> {
-                    newEmployee.setId(id);
-                    return repository.save(newEmployee);
+                    testEmployee.setId(id);
+                    return repository.save(testEmployee);
                 });
 
         EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
