@@ -8,11 +8,13 @@ import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import payroll.assembler.OrderModelAssembler;
 import payroll.entity.Order;
 import payroll.enums.Status;
 import payroll.exception.OrderNotFoundException;
+import payroll.form.OrderForm;
 import payroll.repository.OrderRepository;
 
 import java.util.List;
@@ -81,11 +83,16 @@ public class OrderController {
 
     /**
      * 注文登録
-     * @param order
+     * @param orderForm
      * @return 注文エンティティ
      */
     @PostMapping
-    public ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
+    public ResponseEntity<EntityModel<Order>> newOrder(@Validated @RequestBody OrderForm orderForm) {
+
+        Order order = new Order(
+            orderForm.getDescription(),
+            orderForm.getStatus()
+        );
 
         order.setStatus(Status.IN_PROGRESS);
         Order newOrder = orderRepository.save(order);
