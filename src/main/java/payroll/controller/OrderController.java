@@ -91,8 +91,8 @@ public class OrderController {
 
         Order newOrder = orderRepository.save(
             new Order(
-            orderForm.getDescription(),
-            Status.IN_PROGRESS
+                orderForm.getDescription(),
+                Status.IN_PROGRESS
             )
         );
 

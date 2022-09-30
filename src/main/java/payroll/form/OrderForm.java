@@ -13,6 +13,6 @@ public class OrderForm {
     /** description */
     @NotBlank
     @Size(min=10, max=50)
-    public String description;
+    private String description;
 
 }
